@@ -61,28 +61,6 @@ The program uses a `Scanner`-based menu where the user:
 
 ---
 
-## Project Structure
-
-├── src/
-| └── main/
-|  └── java/
-|   └── com/
-|    └── creating
-|     ├── zoo/
-|     | ├── animalAction/
-│     | | ├── Eat.java
-│     | | ├── Swim.java
-│     | | └── Walk.java
-|     | └── animalType/
-│     |   ├── Animal.java
-│     |   ├── Dolphin.java
-│     |   ├── Penguin.java
-│     |   └── Tiger.java
-│     └── Main.java
-└── README.md
-
----
-
 ## Concepts Practiced
 
 - Inheritance and abstraction  

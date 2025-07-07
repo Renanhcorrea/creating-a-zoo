@@ -16,11 +16,11 @@ public class Main {
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
 
-        int continueOuterLoop;
-        int continueInnerLoop;
+        int continueOuterLoop =1;
+        int continueInnerLoop =1;
 
-        int menuChoice;
-
+        // Menu choice
+        int menuChoice =1;
         Tiger tigerObject = new Tiger();
         Dolphin dolphinObject = new Dolphin();
         Penguin penguinObject = new Penguin();
@@ -32,7 +32,6 @@ public class Main {
                         System.out.println("The animal which is chosen is: " +
                                             tigerObject.getNameOfAnimal());
                         menuChoice = animalDetailsManipulationMenu(keyboard, tigerObject);
-
                         switch (menuChoice) {
                             case 1:
                                 tigerObject.setProperties(keyboard);
@@ -44,6 +43,7 @@ public class Main {
                                 tigerObject.walking();
                                 break;
                             case 4:
+                                tigerObject.eatingFood();
                                 tigerObject.eatingCompleted();
                                 break;
                             default:
@@ -133,13 +133,13 @@ public class Main {
 
     private static int animalChoiceMenu(Scanner keyboard) {
         int choiceGivenByUser;
-
         System.out.println("**** ZOO ANIMAL choice menu ****");
         System.out.println("1. Tiger");
         System.out.println("2. Dolphin");
         System.out.println("3. Penguin");
-
-        System.out.println("Enter choice of animal:");
+        System.out.println("4. Save animals to file");
+        System.out.println("5. Display saved animals from file");
+        System.out.println("Enter choice of animal (1-5): ");
         choiceGivenByUser = keyboard.nextInt();
         return choiceGivenByUser;
     }
@@ -147,12 +147,11 @@ public class Main {
     private static int animalDetailsManipulationMenu(Scanner keyboard, Animal animal){
         int choiceGivenByUser;
 
-        System.out.println("**** ANIMAL details menu for: ");
+        System.out.println("**** ANIMAL details menu for: " + animal.getNameOfAnimal() + " ****");
         System.out.println("1. Set properties");
         System.out.println("2. Display properties");
         System.out.println("3. Display movement");
         System.out.println("4. Display eating");
-
         System.out.println("Enter choice (1-4):");
         choiceGivenByUser = keyboard.nextInt();
         return choiceGivenByUser;
@@ -160,76 +159,38 @@ public class Main {
 
     // Write a method named writeObjectsToFile and pass Tiger, Penguin and Dolphin to be saved onto a file.
     public static void writeObjectsToFile(Tiger tiger, Penguin penguin, Dolphin dolphin){
-
-        // Tiger
         try (ObjectOutputStream tigerOut = new ObjectOutputStream(
-                new FileOutputStream("tiger.txt"))) {
-            tigerOut.writeObject(tiger);
-            System.out.println("Tiger saved to tiger.txt");
-        } catch (IOException e) {
-            System.err.println("Failed to save Tiger file.");
-            e.getStackTrace();
-        }
-
-        // Penguin
-        try (ObjectOutputStream penguinOut = new ObjectOutputStream(
-                new FileOutputStream("penguin.txt"))) {
-            penguinOut.writeObject(penguin);
-            System.out.println("Penguin saved to penguin.txt");
-        } catch (IOException e) {
-            System.err.println("Failed to save Penguin file.");
-            e.getStackTrace();
-        }
-
-        // Dolphin
-        try (ObjectOutputStream dolphinOut = new ObjectOutputStream(
+                new FileOutputStream("tiger.txt"));
+             ObjectOutputStream penguinOut = new ObjectOutputStream(
+                new FileOutputStream("penguin.txt"));
+             ObjectOutputStream dolphinOut = new ObjectOutputStream(
                 new FileOutputStream("dolphin.txt"))) {
+            tigerOut.writeObject(tiger);
+            penguinOut.writeObject(penguin);
             dolphinOut.writeObject(dolphin);
-            System.out.println("Dolphin saved to dolphin.txt");
+            System.out.println("Animal state saved sucessfully.");
         } catch (IOException e) {
-            System.err.println("Failed to save Dolphin file.");
-            e.getStackTrace();
+            e.printStackTrace();
         }
     }
 
     // Read the file tiger.txt, penguin.txt and dolphin.txt
     public static void readObjectsFromFile(){
         try (ObjectInputStream tigerIn = new ObjectInputStream(
-            new FileInputStream("tiger.txt"))) {
-                Tiger tiger = (Tiger) tigerIn.readObject();
-                System.out.println("Tiger Object loaded from tiger.txt");
-                tiger.toString();
-        } catch (ClassNotFoundException e) {
-            System.err.println("File not found.");
-            e.getStackTrace();
-        } catch (IOException e) {
-            System.err.println("Failed to read Tiger from file.");
-            e.printStackTrace();
-        }
-
-        try (ObjectInputStream penguinIn = new ObjectInputStream(
-            new FileInputStream("penguin.txt"))) {
-                Penguin penguin = (Penguin) penguinIn.readObject();
-                System.out.println("Penguin object loaded from penguin.txt");
-                penguin.toString();
-        } catch (ClassNotFoundException e) {
-            System.err.println("File not found.");
-            e.getStackTrace();
-        } catch (IOException e) {
-            System.err.println("Failed to read Penguin from file.");
-            e.printStackTrace();
-        }
-
-        try (ObjectInputStream dolphinIn = new ObjectInputStream(
+            new FileInputStream("tiger.txt"));
+            ObjectInputStream penguinIn = new ObjectInputStream(
+            new FileInputStream("penguin.txt"));
+            ObjectInputStream dolphinIn = new ObjectInputStream(
             new FileInputStream("dolphin.txt"))) {
+                Tiger tiger = (Tiger) tigerIn.readObject();
+                Penguin penguin = (Penguin) penguinIn.readObject();
                 Dolphin dolphin = (Dolphin) dolphinIn.readObject();
-                System.out.println("Dolphin object loaded from dolphin.txt");
-                dolphin.toString();
+                System.out.println("Tiger data retrieved from file: " + tiger.toString());
+                System.out.println("Penguin data retrieved from file: " + penguin.toString());
+                System.out.println("Dolphin data retrieved from file: " + dolphin.toString());
         } catch (ClassNotFoundException e) {
-            System.err.println("File not found.");
-            e.getStackTrace();
-        } catch (IOException e ){
-            System.err.println("Failed to read Dolphin from file.");
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

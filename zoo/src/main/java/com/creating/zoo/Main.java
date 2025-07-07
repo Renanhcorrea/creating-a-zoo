@@ -1,5 +1,10 @@
 package com.creating.zoo;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import com.creating.zoo.animalType.Animal;
@@ -112,6 +117,12 @@ public class Main {
                         continueInnerLoop = keyboard.nextInt();
                     } while ( continueInnerLoop == 1);
                     break;
+                case 4:
+                    writeObjectsToFile(tigerObject, penguinObject, dolphinObject);
+                    break;
+                case 5:
+                    readObjectsFromFile();
+                    break;
                 default:
                     System.out.println("Sorry no such animal available.");
             }
@@ -145,5 +156,81 @@ public class Main {
         System.out.println("Enter choice (1-4):");
         choiceGivenByUser = keyboard.nextInt();
         return choiceGivenByUser;
+    }
+
+    // Write a method named writeObjectsToFile and pass Tiger, Penguin and Dolphin to be saved onto a file.
+    public static void writeObjectsToFile(Tiger tiger, Penguin penguin, Dolphin dolphin){
+
+        // Tiger
+        try (ObjectOutputStream tigerOut = new ObjectOutputStream(
+                new FileOutputStream("tiger.txt"))) {
+            tigerOut.writeObject(tiger);
+            System.out.println("Tiger saved to tiger.txt");
+        } catch (IOException e) {
+            System.err.println("Failed to save Tiger file.");
+            e.getStackTrace();
+        }
+
+        // Penguin
+        try (ObjectOutputStream penguinOut = new ObjectOutputStream(
+                new FileOutputStream("penguin.txt"))) {
+            penguinOut.writeObject(penguin);
+            System.out.println("Penguin saved to penguin.txt");
+        } catch (IOException e) {
+            System.err.println("Failed to save Penguin file.");
+            e.getStackTrace();
+        }
+
+        // Dolphin
+        try (ObjectOutputStream dolphinOut = new ObjectOutputStream(
+                new FileOutputStream("dolphin.txt"))) {
+            dolphinOut.writeObject(dolphin);
+            System.out.println("Dolphin saved to dolphin.txt");
+        } catch (IOException e) {
+            System.err.println("Failed to save Dolphin file.");
+            e.getStackTrace();
+        }
+    }
+
+    // Read the file tiger.txt, penguin.txt and dolphin.txt
+    public static void readObjectsFromFile(){
+        try (ObjectInputStream tigerIn = new ObjectInputStream(
+            new FileInputStream("tiger.txt"))) {
+                Tiger tiger = (Tiger) tigerIn.readObject();
+                System.out.println("Tiger Object loaded from tiger.txt");
+                tiger.toString();
+        } catch (ClassNotFoundException e) {
+            System.err.println("File not found.");
+            e.getStackTrace();
+        } catch (IOException e) {
+            System.err.println("Failed to read Tiger from file.");
+            e.printStackTrace();
+        }
+
+        try (ObjectInputStream penguinIn = new ObjectInputStream(
+            new FileInputStream("penguin.txt"))) {
+                Penguin penguin = (Penguin) penguinIn.readObject();
+                System.out.println("Penguin object loaded from penguin.txt");
+                penguin.toString();
+        } catch (ClassNotFoundException e) {
+            System.err.println("File not found.");
+            e.getStackTrace();
+        } catch (IOException e) {
+            System.err.println("Failed to read Penguin from file.");
+            e.printStackTrace();
+        }
+
+        try (ObjectInputStream dolphinIn = new ObjectInputStream(
+            new FileInputStream("dolphin.txt"))) {
+                Dolphin dolphin = (Dolphin) dolphinIn.readObject();
+                System.out.println("Dolphin object loaded from dolphin.txt");
+                dolphin.toString();
+        } catch (ClassNotFoundException e) {
+            System.err.println("File not found.");
+            e.getStackTrace();
+        } catch (IOException e ){
+            System.err.println("Failed to read Dolphin from file.");
+            e.printStackTrace();
+        }
     }
 }

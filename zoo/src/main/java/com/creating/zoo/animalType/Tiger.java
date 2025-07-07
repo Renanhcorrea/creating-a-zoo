@@ -1,10 +1,12 @@
 package com.creating.zoo.animalType;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
 import com.creating.zoo.animalAction.Walk;
 
-public class Tiger extends Animal implements Walk{
+public class Tiger extends Animal implements Walk, Serializable{
+    private static final long serialVariableUID = 1L;
 
     private int numberOfStripes;
     private double speed;
@@ -86,5 +88,18 @@ public class Tiger extends Animal implements Walk{
         System.out.println("Roar: " + getSoundLevel());
         System.out.println("Walking speed: " + getSpeed());
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Tiger{");
+        sb.append("numberOfStripes=").append(numberOfStripes);
+        sb.append(", speed=").append(speed);
+        sb.append(", soundLevel=").append(soundLevel);
+        sb.append('}');
+        return sb.toString();
+    }
+
+
 
 }

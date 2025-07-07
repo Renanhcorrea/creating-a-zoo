@@ -1,11 +1,14 @@
 package com.creating.zoo.animalType;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
 import com.creating.zoo.animalAction.Swim;
 import com.creating.zoo.animalAction.Walk;
 
-public class Penguin extends Animal implements Walk, Swim{
+public class Penguin extends Animal implements Walk, Swim, Serializable{
+    private static final long serialVariableUID = 1L;
+
     private int walkSpeed;
     private int swimSpeed;
     private boolean isSwimming;
@@ -86,5 +89,18 @@ public class Penguin extends Animal implements Walk, Swim{
             System.out.println("Walking speed: " +getWalkSpeed());
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Penguin{");
+        sb.append("walkSpeed=").append(walkSpeed);
+        sb.append(", swimSpeed=").append(swimSpeed);
+        sb.append(", isSwimming=").append(isSwimming);
+        sb.append('}');
+        return sb.toString();
+    }
+
+
 
 }

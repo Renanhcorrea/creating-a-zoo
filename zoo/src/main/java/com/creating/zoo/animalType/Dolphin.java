@@ -1,10 +1,13 @@
 package com.creating.zoo.animalType;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
 import com.creating.zoo.animalAction.Swim;
 
-public class Dolphin extends Animal implements Swim{
+public class Dolphin extends Animal implements Swim, Serializable{
+    private static final long serialVariableUID = 1L;
+
     private String color;
     private int swimmingSpeed;
 
@@ -64,5 +67,17 @@ public class Dolphin extends Animal implements Swim{
         System.out.println("Color: " +getColor());
         System.out.println("Swimming speed: " + getSwimmingSpeed());
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Dolphin{");
+        sb.append("color=").append(color);
+        sb.append(", swimmingSpeed=").append(swimmingSpeed);
+        sb.append('}');
+        return sb.toString();
+    }
+
+
 
 }
